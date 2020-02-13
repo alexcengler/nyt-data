@@ -5,6 +5,9 @@ library(httr)
 library(jsonlite)
 ```
 
+install.packages("httr")
+install.packages("jsonlite")
+
 ## Iowa Election Data
 Load JSON data from NYTimes election data API:
 
@@ -22,7 +25,7 @@ Pivot the data from wide to long. Consider why the arguments candidate and votes
 
 ```{r}
 iowa_counties_long <- iowa_counties_all %>% 
-  pivot_longer(cols = c(-name), names_to = "candidate", values_to = "votes")
+  pivot_longer(cols = sandersb:other, names_to = "candidate", values_to = "votes")
 head(iowa_counties_long, n=20)
 ```
 
@@ -59,11 +62,11 @@ nh_counties_all <- bind_cols(select(nh_counties, name, fips), nh_counties$result
 head(nh_counties_all)
 ```
 
-Test your knowledge: Write the code to pivot the New Hampshire data to a longer form, then back. Note the inclusion of the FIPS code, which is unique to each county, changes the code"
+Test your knowledge: Write the code to pivot the New Hampshire data to a longer form, then back. Note the inclusion of the FIPS code, which is unique to each county, changes the code
 
 ```{r}
-
-
+nh_counties_long <- nh_counties_all %>% 
+  pivot_longer(cols = c(-name, -fips), names_to = "candidate", values_to = "votes")
 ```
 
 If you wrote the above code correctly, you should be able to run the code below and [match the results from AP](https://www.google.com/search?q=fianl+results+new+hampshire&rlz=1C5CHFA_enUS865US865&oq=fianl+results+new+hampshire&aqs=chrome..69i57j33l7.3442j0j7&sourceid=chrome&ie=UTF-8).
